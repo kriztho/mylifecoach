@@ -32,4 +32,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // JodaTime to never have to deal with Java Date again
+    implementation 'joda-time:joda-time:2.9.4'
+}
+
+androidExtensions {
+    experimental = true
 }
