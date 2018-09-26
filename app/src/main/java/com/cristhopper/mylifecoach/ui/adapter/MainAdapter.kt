@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.View
 import com.cristhopper.mylifecoach.R
 import com.cristhopper.mylifecoach.model.Goal
-import com.cristhopper.mylifecoach.ui.GoalActivity
+import com.cristhopper.mylifecoach.ui.activities.GoalActivity
 import com.cristhopper.mylifecoach.utils.inflate
 import kotlinx.android.synthetic.main.item_row_main.view.*
 
@@ -48,13 +48,9 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListe
         Log.d(TAG, "[onClick]: " + goal?.name)
 
         val context = itemView.context
-        val showPhotoIntent = Intent(context, GoalActivity::class.java)
-        showPhotoIntent.putExtra(GOAL_KEY, goal)
-        context.startActivity(showPhotoIntent)
-    }
-
-    companion object {
-        private val GOAL_KEY = "GOAL"
+        val showGoalIntent = Intent(context, GoalActivity::class.java)
+        showGoalIntent.putExtra(GoalActivity.KEY_GOAL, goal)
+        context.startActivity(showGoalIntent)
     }
 
     fun bindGoal(goal: Goal) {
@@ -64,5 +60,6 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListe
 
         // The views
         view.item_title.setText(goal.name)
+        view.item_description.setText(goal.description)
     }
 }

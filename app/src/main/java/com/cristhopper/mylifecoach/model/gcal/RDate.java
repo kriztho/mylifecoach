@@ -16,6 +16,17 @@ public class RDate implements Parcelable {
         this.dates = dates;
     }
 
+    public ArrayList<DateTime> getDates() {
+        return dates;
+    }
+
+
+
+
+
+    /*
+            Parcelable implementation
+         */
     protected RDate(Parcel in) {
         if (in.readByte() == 0x01) {
             dates = new ArrayList<DateTime>();

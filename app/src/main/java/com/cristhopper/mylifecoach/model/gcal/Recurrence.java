@@ -16,6 +16,26 @@ public class Recurrence implements Parcelable {
         this.exdate = exdate;
     }
 
+    public RRule getRrule() {
+        return rrule;
+    }
+
+    public RDate getRdate() {
+        return rdate;
+    }
+
+    public RDate getExdate() {
+        return exdate;
+    }
+
+
+
+
+
+
+    /*
+        Parcelable implementation
+     */
     protected Recurrence(Parcel in) {
         rrule = (RRule) in.readValue(RRule.class.getClassLoader());
         rdate = (RDate) in.readValue(RDate.class.getClassLoader());

@@ -23,6 +23,35 @@ public class RRule implements Parcelable {
         this.byday = byday;
     }
 
+    public Frequency getFrequency() {
+        return frequency;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public DateTime getUntil() {
+        return until;
+    }
+
+    public DateTime getByday() {
+        return byday;
+    }
+
+
+
+
+
+
+
+    /*
+        Parcelable implementation
+     */
     protected RRule(Parcel in) {
         frequency = (Frequency) in.readValue(Frequency.class.getClassLoader());
         interval = in.readInt();
