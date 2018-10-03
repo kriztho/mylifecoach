@@ -1,4 +1,4 @@
-package com.cristhopper.mylifecoach.model
+package com.cristhopper.mylifecoach.data.domain
 
 data class User(val firstName: String, val lastName: String) {
 

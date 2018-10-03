@@ -1,17 +1,18 @@
 package com.cristhopper.mylifecoach.ui.adapter
 
 import android.content.Intent
+import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.ViewGroup
 import android.view.View
 import com.cristhopper.mylifecoach.R
-import com.cristhopper.mylifecoach.model.Goal
+import com.cristhopper.mylifecoach.data.domain.Goal
 import com.cristhopper.mylifecoach.ui.activities.GoalActivity
 import com.cristhopper.mylifecoach.utils.inflate
 import kotlinx.android.synthetic.main.item_row_main.view.*
 
-class MainAdapter(private val items : ArrayList<Goal>) : RecyclerView.Adapter<ViewHolder>() {
+class GoalListAdapter(private val items : ArrayList<Goal>) : ListAdapter<Goal, ViewHolder>(GoalDiffCallback()) {
 
     // Gets the number of animals in the list
     override fun getItemCount() = items.size

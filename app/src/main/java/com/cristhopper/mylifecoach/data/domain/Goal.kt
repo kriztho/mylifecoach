@@ -1,9 +1,9 @@
-package com.cristhopper.mylifecoach.model
+package com.cristhopper.mylifecoach.data.domain
 
 import android.os.Parcelable
-import com.cristhopper.mylifecoach.interfaces.IEvent
-import com.cristhopper.mylifecoach.interfaces.Status
-import com.cristhopper.mylifecoach.model.gcal.Recurrence
+import com.cristhopper.mylifecoach.data.interfaces.IEvent
+import com.cristhopper.mylifecoach.data.interfaces.Status
+import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
 import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 import org.joda.time.Seconds

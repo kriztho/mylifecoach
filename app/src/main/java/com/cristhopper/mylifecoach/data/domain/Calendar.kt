@@ -1,6 +1,6 @@
-package com.cristhopper.mylifecoach.model
+package com.cristhopper.mylifecoach.data.domain
 
-import com.cristhopper.mylifecoach.interfaces.IEvent
+import com.cristhopper.mylifecoach.data.interfaces.IEvent
 
 data class Calendar(val name: String, val description: String) {
 

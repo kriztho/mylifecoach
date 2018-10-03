@@ -1,9 +1,9 @@
-package com.cristhopper.mylifecoach.model.gcal;
+package com.cristhopper.mylifecoach.data.domain.gcal;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.cristhopper.mylifecoach.interfaces.Frequency;
+import com.cristhopper.mylifecoach.data.interfaces.Frequency;
 
 import org.joda.time.DateTime;
 

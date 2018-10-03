@@ -6,26 +6,18 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.cristhopper.mylifecoach.R
-import com.cristhopper.mylifecoach.interfaces.Frequency
-import com.cristhopper.mylifecoach.interfaces.Status
-import com.cristhopper.mylifecoach.model.Goal
-import com.cristhopper.mylifecoach.model.gcal.RDate
-import com.cristhopper.mylifecoach.model.gcal.RRule
-import com.cristhopper.mylifecoach.model.gcal.Recurrence
-import com.cristhopper.mylifecoach.ui.adapter.MainAdapter
+import com.cristhopper.mylifecoach.ui.fragments.CalendarFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import org.joda.time.DateTime
+import com.cristhopper.mylifecoach.utils.inTransaction
+import com.cristhopper.mylifecoach.ui.fragments.GoalListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: MainAdapter
+    var isShowingCalendar = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +25,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         setupFab()
-        setupList()
         setupDrawer()
+        setupDefaultView()
     }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            if (supportFragmentManager.backStackEntryCount > 1)
+                supportFragmentManager.popBackStack()
+            else
+                finish()
         }
     }
 
@@ -56,6 +51,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
+            R.id.action_switch -> {
+                switchView()
+                return true
+            }
             R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
         }
@@ -64,18 +63,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
 
+            R.id.nav_list-> {
+                showListView()
             }
-            R.id.nav_slideshow -> {
 
+            R.id.nav_calendar-> {
+                showCalendarView()
             }
-            R.id.nav_manage -> {
 
-            }
             R.id.nav_share -> {
 
             }
@@ -96,16 +92,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    fun setupList() {
-        linearLayoutManager = LinearLayoutManager(this)
-        rv_main.layoutManager = linearLayoutManager
-
-        val goalsList = createTestData()
-
-        adapter = MainAdapter(goalsList)
-        rv_main.adapter = adapter
-    }
-
     fun setupDrawer() {
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -115,34 +101,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
     }
 
-    fun createTestData(): ArrayList<Goal> {
+    /**
+     * Show List View as default
+     */
+    fun setupDefaultView() {
 
-        val goalsList : ArrayList<Goal> = ArrayList()
+        supportFragmentManager.inTransaction {
+            replace(R.id.container, GoalListFragment())
+            addToBackStack("home")
+        }
+        nav_view.setCheckedItem(R.id.nav_list)
+    }
 
-        var goal = Goal("0", "Workout", Status.CONFIRMED, "At the gym 4 times a week",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
+    /**
+     * Switches the main view between list and calendar views
+     */
+    fun switchView() {
 
-        goal = Goal("1", "Study Japanese", Status.CONFIRMED, "At home 2 times a week",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
+        if (isShowingCalendar) {
+            showListView()
 
-        goal = Goal("2", "Cook lunch for the week", Status.CONFIRMED, "On sundays",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
+        } else {
+            showCalendarView()
+        }
+    }
 
-        goal = Goal("3", "Rezar el Rosario", Status.CONFIRMED, "Con mis amigas por whatsapp",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
+    fun showCalendarView() {
 
-        return goalsList
+        //replace to calendar
+        supportFragmentManager.inTransaction {
+            replace(R.id.container, CalendarFragment())
+            addToBackStack("calendar")
+        }
+
+        nav_view.setCheckedItem(R.id.nav_calendar)
+        isShowingCalendar = true
+    }
+
+    fun showListView() {
+
+        //popback to home
+        supportFragmentManager.popBackStack("home", 0)
+
+        nav_view.setCheckedItem(R.id.nav_list)
+        isShowingCalendar = false
     }
 }

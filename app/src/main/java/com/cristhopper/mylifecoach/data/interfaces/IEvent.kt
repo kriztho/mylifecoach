@@ -1,6 +1,7 @@
-package com.cristhopper.mylifecoach.interfaces
+package com.cristhopper.mylifecoach.data.interfaces
 
-import com.cristhopper.mylifecoach.model.gcal.Recurrence
+import android.os.Parcelable
+import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
 import org.joda.time.DateTime
 
 enum class Frequency {
@@ -31,13 +32,13 @@ enum class Status {
     INCOMPLETE
 }
 
-interface IEvent {
+interface IEvent: Parcelable {
 
     val id: String?
     val name: String
     val status: Status
 
-    val description: String
+    val description: String?
     val location: String?
 
     val start: DateTime

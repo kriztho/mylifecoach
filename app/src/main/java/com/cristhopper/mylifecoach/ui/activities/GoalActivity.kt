@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.cristhopper.mylifecoach.R
-import com.cristhopper.mylifecoach.model.Goal
-import com.cristhopper.mylifecoach.model.Task
+import com.cristhopper.mylifecoach.data.domain.Goal
+import com.cristhopper.mylifecoach.data.domain.Task
 import kotlinx.android.synthetic.main.activity_goal.*
 import org.joda.time.Period
 import java.util.*
