@@ -9,11 +9,8 @@ import javax.inject.Inject
 
 class GoalRepository private constructor(private val goalDao: GoalDao){
 
-//    fun getGoals() = goalDao.getGoals()
-    fun getGoals(): LiveData<ArrayList<Goal>> {
-
-        return createTestData()
-    }
+    fun getGoals() = goalDao.getGoals()
+//    fun getGoals() = createTestData()
 
     fun getGoal(goalId: String) = goalDao.getGoal(goalId)
 

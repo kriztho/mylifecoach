@@ -21,9 +21,9 @@ class Goal(
         val description: String,
         val status: Status = Status.CONFIRMED,
 
-        val start: DateTime,
+        val start: DateTime?,
         val estimatedDuration: Int,
-        val end: DateTime? = start.plusSeconds(estimatedDuration),
+        val end: DateTime? = start?.plusSeconds(estimatedDuration),
         val location: String? = null
 
 //        @TypeConverters(Converters::class)

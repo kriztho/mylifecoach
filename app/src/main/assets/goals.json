@@ -1,0 +1,42 @@
+[
+  {
+    "id":0,
+    "name":"Workout",
+    "description":"At the gym 4 times a week",
+    "status":0,
+//    "start":1538625173000,
+    "estimatedDuration":900,
+//    "end":1538626073000,
+    "location":"Gym"
+  },
+  {
+    "id":1,
+    "name":"Study Japanese",
+    "description":"At home 2 times a week",
+    "status":0,
+//    "start":1538538773000,
+    "estimatedDuration":1200,
+//    "end":1538539973000,
+    "location":"Home"
+  },
+  {
+    "id":2,
+    "name":"Cook lunch for the week",
+    "description":"On sundays",
+    "status":0,
+//    "start":1538452373000,
+    "estimatedDuration":600,
+//    "end":1538452973000,
+    "location":"Home"
+  },
+  {
+    "id":3,
+    "name":"Rezar el Rosario",
+    "description":"Con mis amigas por whatsapp",
+    "status":0,
+//    "start":1538365973000,
+    "estimatedDuration":2400,
+//    "end":1538368373000,
+    "location":"Home"
+  }
+]

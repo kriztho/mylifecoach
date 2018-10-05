@@ -3,6 +3,7 @@ package com.cristhopper.mylifecoach.data.interfaces
 import android.arch.persistence.room.TypeConverter
 import android.os.Parcelable
 import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
+import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
 enum class Frequency {
@@ -27,9 +28,13 @@ enum class Day {
 }
 
 enum class Status {
+    @SerializedName("0")
     CONFIRMED,
+    @SerializedName("1")
     CANCELED,
+    @SerializedName("2")
     COMPLETE,
+    @SerializedName("3")
     INCOMPLETE;
 }
 

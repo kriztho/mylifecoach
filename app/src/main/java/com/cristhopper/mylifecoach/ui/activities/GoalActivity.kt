@@ -67,7 +67,7 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         // Set the start and end times
         goal?.also { goal1 ->
             val fmt = DateTimeFormat.forPattern("hh:mm aa")
-            txt_hours.setText(String.format(Locale.US, "%s - %s", fmt.print(goal1.start), fmt.print(goal1.start.plusSeconds(goal1.estimatedDuration))))
+            txt_hours.setText(String.format(Locale.US, "%s - %s", fmt.print(goal1.start), fmt.print(goal1.start?.plusSeconds(goal1.estimatedDuration))))
         }
 
         // Set until
