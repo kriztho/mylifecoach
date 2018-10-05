@@ -31,8 +31,6 @@ public class Recurrence implements Parcelable {
 
 
 
-
-
     /*
         Parcelable implementation
      */

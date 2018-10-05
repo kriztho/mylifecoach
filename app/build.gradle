@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -28,6 +32,8 @@ dependencies {
     implementation "com.android.support:support-v4:$rootProject.androidSdkVersion"
     implementation "com.android.support:design:$rootProject.androidSdkVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+    implementation "android.arch.work:work-runtime-ktx:$rootProject.workVersion"
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     // Testing dependencies
     testImplementation 'junit:junit:4.12'
@@ -40,13 +46,20 @@ dependencies {
     // Calendar view
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
 
+    // Lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.lifecycleVersion"
     kapt "android.arch.lifecycle:compiler:$rootProject.lifecycleVersion"
 
+    // Room
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     kapt "android.arch.persistence.room:compiler:$rootProject.roomVersion"
 
+    // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+
+    // Dagger
+    implementation 'com.google.dagger:dagger:2.13'
+    kapt 'com.google.dagger:dagger-compiler:2.13'
 }
 
 androidExtensions {

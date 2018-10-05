@@ -27,6 +27,7 @@ buildscript {
         lifecycleVersion = '1.1.1'
         retrofit = '2.4.0'
         jodaVersion = '2.9.4'
+        workVersion = '1.0.0-alpha09'
     }
 
     repositories {

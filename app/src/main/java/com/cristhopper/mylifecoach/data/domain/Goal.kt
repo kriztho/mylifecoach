@@ -1,46 +1,53 @@
 package com.cristhopper.mylifecoach.data.domain
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
+import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.TypeConverters
 import android.os.Parcelable
-import com.cristhopper.mylifecoach.data.interfaces.IEvent
 import com.cristhopper.mylifecoach.data.interfaces.Status
 import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
+import com.cristhopper.mylifecoach.utils.Converters
 import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
-import org.joda.time.Seconds
+import org.joda.time.Duration
 
 @Parcelize
+@Entity(tableName = "goals")
 class Goal(
-        override val id: String?,
-        override val name: String,
-        override val status: Status,
+        @PrimaryKey(autoGenerate = true)
+        var id: Int? = null,                                     //Autogenerate by Room
+        val name: String,
+        val description: String,
+        val status: Status = Status.CONFIRMED,
 
-        override val description: String,
-        override val location: String?,
+        val start: DateTime,
+        val estimatedDuration: Int,
+        val end: DateTime? = start.plusSeconds(estimatedDuration),
+        val location: String? = null
 
-        override val start: DateTime,
-        override val end: DateTime,
-        override val estimatedDuration: Int,
-
-        override val recurrence: Recurrence?,
-        override val recurringEventId: Int?
-): Parcelable, IEvent {
+//        @TypeConverters(Converters::class)
+//        val recurrence: Recurrence? = null,                      // It doesn't repeat
+//        val recurringEventId: Int? = null
+): Parcelable {
 
     // The list of tasks associated to this goal
-    var tasks: ArrayList<Task>? = null
+//    var tasks: ArrayList<Task>? = null
 
     // The list of events scheduled for this goal
-    var events: ArrayList<Event>? = null
+//    var events: ArrayList<Event>? = null
 
-    constructor(name: String, description: String) : this(
+    @Ignore
+    constructor(name: String, description: String, start: DateTime, duration: Int) : this(
             null,
             name,
-            Status.CONFIRMED,
             description,
-            null,
-            DateTime.now(),
-            DateTime.now().plusMinutes(15),
-            Seconds.secondsBetween(DateTime.now(), DateTime.now().plusMinutes(15)).seconds,
-            null,
+            Status.CONFIRMED,
+            start,
+            duration,
+            DateTime.now().plusSeconds(duration),
             null
+//            null,
+//            null
     )
 }

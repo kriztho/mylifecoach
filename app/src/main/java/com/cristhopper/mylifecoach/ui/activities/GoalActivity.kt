@@ -15,10 +15,6 @@ import java.util.*
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 
-
-
-
-
 class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     private val PERCENTAGE_TO_SHOW_IMAGE = 20
@@ -60,7 +56,7 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         txt_name.setText(goal?.name)
         txt_description.setText(goal?.description)
 
-        txt_frequency.setText(goal?.recurrence?.rrule?.frequency?.name)
+//        txt_frequency.setText(goal?.recurrence?.rrule?.frequency?.name)
 
         // Set the duration
         goal?.also { goal1 ->
@@ -79,7 +75,7 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         txt_end_date.setText(String.format(Locale.US, "Until %s", fmt.print(goal?.end)))
 
         // Load tasks into UI
-        populateTasks(goal?.tasks)
+//        populateTasks(goal?.tasks)
     }
 
     fun populateTasks(tasks: List<Task>?) {

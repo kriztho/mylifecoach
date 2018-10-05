@@ -12,17 +12,15 @@ import org.joda.time.DateTime
 class Event(
         override val name: String,
         override val start: DateTime,
-        override val estimatedDuration: Int
+        override val estimatedDuration: Int,
+        override val id: String? = null,
+        override val description: String? = null,
+        override val status: Status = Status.CONFIRMED,
+        override val location: String? = null,
+        override val end: DateTime = start.plusSeconds(estimatedDuration),
+        override val recurrence: Recurrence? = null,
+        override val recurringEventId: Int? = null
 ): Parcelable, IEvent {
-
-    override val id: String? = null
-    override val description: String? = null
-    override val status: Status = Status.CONFIRMED
-    override val location: String? = null
-    override val end: DateTime = start.plusSeconds(estimatedDuration)
-    override val recurrence: Recurrence? = null
-    override val recurringEventId: Int? = null
-
 
     constructor(day: Int, month: Int, year: Int):
             this("", DateTime(year, month, day, 0, 0), 1)

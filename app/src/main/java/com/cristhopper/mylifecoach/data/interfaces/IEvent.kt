@@ -1,5 +1,6 @@
 package com.cristhopper.mylifecoach.data.interfaces
 
+import android.arch.persistence.room.TypeConverter
 import android.os.Parcelable
 import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
 import org.joda.time.DateTime
@@ -29,8 +30,23 @@ enum class Status {
     CONFIRMED,
     CANCELED,
     COMPLETE,
-    INCOMPLETE
+    INCOMPLETE;
 }
+
+// Type converters are a pair of methods, annotated with @TypeConverter,
+// that map the type for a single database column to a type for a Java field.
+//class StatusConverters {
+//
+//    @TypeConverter
+//    fun toInt(status: Status): Int {
+//        return status.ordinal
+//    }
+//
+//    @TypeConverter
+//    fun fromInt(index: Int): Status {
+//        return Status.values().get(index)
+//    }
+//}
 
 interface IEvent: Parcelable {
 

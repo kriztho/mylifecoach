@@ -12,24 +12,20 @@ import com.cristhopper.mylifecoach.ui.activities.GoalActivity
 import com.cristhopper.mylifecoach.utils.inflate
 import kotlinx.android.synthetic.main.item_row_main.view.*
 
-class GoalListAdapter(private val items : ArrayList<Goal>) : ListAdapter<Goal, ViewHolder>(GoalDiffCallback()) {
+class GoalListAdapter: ListAdapter<Goal, ViewHolder>(GoalDiffCallback()) {
 
-    // Gets the number of animals in the list
-    override fun getItemCount() = items.size
+    // Binds each animal in the ArrayList to a view
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val goal = getItem(position)
+        holder.bindGoal(goal)
+    }
 
     // Inflates the item views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // Inflate the view using
-        val inflatedView = parent.inflate(R.layout.item_row_main, false)
-        return ViewHolder(inflatedView)
-    }
-
-    // Binds each animal in the ArrayList to a view
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val goal = items[position]
-        holder.bindGoal(goal)
+        return ViewHolder(parent.inflate(R.layout.item_row_main, false))
     }
 }
 

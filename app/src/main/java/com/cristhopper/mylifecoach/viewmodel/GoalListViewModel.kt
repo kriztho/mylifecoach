@@ -1,17 +1,15 @@
 package com.cristhopper.mylifecoach.viewmodel
 
 import android.arch.lifecycle.ViewModel
-import com.cristhopper.mylifecoach.data.dao.GoalDao
 import com.cristhopper.mylifecoach.data.repository.EventRepository
 import com.cristhopper.mylifecoach.data.repository.GoalRepository
+import javax.inject.Inject
 
-class GoalListViewModel internal constructor(): ViewModel() {
+class GoalListViewModel internal constructor(
+        private val goalRepository: GoalRepository
+): ViewModel() {
 
-    private lateinit var userId: String
-    private lateinit var eventRepo: EventRepository
-    private var goalRepo: GoalRepository = GoalRepository.getInstance(GoalDao())
-
-    private val goalList = goalRepo.getGoals()
+    private val goalList = goalRepository.getGoals()
 
     fun getGoals() = goalList
 }

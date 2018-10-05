@@ -17,7 +17,9 @@ import com.cristhopper.mylifecoach.ui.fragments.GoalListFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    var isShowingCalendar = false
+    private var isShowingCalendar = false
+    private lateinit var listFragment: GoalListFragment
+    private lateinit var calendarFragment: CalendarFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +29,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setupFab()
         setupDrawer()
         setupDefaultView()
-    }
-
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            if (supportFragmentManager.backStackEntryCount > 1)
-                supportFragmentManager.popBackStack()
-            else
-                finish()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -84,6 +75,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            if (supportFragmentManager.backStackEntryCount > 1)
+                supportFragmentManager.popBackStack()
+            else
+                finish()
+        }
+    }
+
     fun setupFab() {
 
         fab.setOnClickListener { view ->
@@ -106,8 +108,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     fun setupDefaultView() {
 
+        listFragment = GoalListFragment()
+        calendarFragment = CalendarFragment()
+
         supportFragmentManager.inTransaction {
-            replace(R.id.container, GoalListFragment())
+            replace(R.id.container, listFragment)
             addToBackStack("home")
         }
         nav_view.setCheckedItem(R.id.nav_list)
@@ -130,7 +135,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //replace to calendar
         supportFragmentManager.inTransaction {
-            replace(R.id.container, CalendarFragment())
+            replace(R.id.container, calendarFragment)
             addToBackStack("calendar")
         }
 

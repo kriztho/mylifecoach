@@ -16,7 +16,9 @@ import com.cristhopper.mylifecoach.data.domain.gcal.RDate
 import com.cristhopper.mylifecoach.data.domain.gcal.RRule
 import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
 import com.cristhopper.mylifecoach.ui.adapter.GoalListAdapter
+import com.cristhopper.mylifecoach.utils.InjectorUtils
 import com.cristhopper.mylifecoach.viewmodel.GoalListViewModel
+import com.cristhopper.mylifecoach.viewmodel.GoalListViewModelFactory
 import kotlinx.android.synthetic.main.content_main.*
 import org.joda.time.DateTime
 
@@ -24,72 +26,37 @@ class GoalListFragment: Fragment() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: GoalListAdapter
-    lateinit var model: GoalListViewModel
+    private lateinit var viewModel: GoalListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model = ViewModelProviders.of(this).get(GoalListViewModel::class.java)
+        context?.let {
 
-        // Observe the list of goals
-        model.getGoals().observe(this, Observer { goals ->
+            val factory = InjectorUtils.provideGoalListViewModelFactory(it)
+            viewModel = ViewModelProviders.of(this, factory).get(GoalListViewModel::class.java)
 
-            // Update the list of goals
-            adapter.submitList(goals)
-        })
+            // Observe the list of goals
+            viewModel.getGoals().observe(this, Observer { goals ->
+
+                // Update the list of goals
+                if(goals != null)
+                    adapter.submitList(goals)
+            })
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        val rootView = inflater.inflate(R.layout.content_main, container, false)
-
-        return rootView
+        return inflater.inflate(R.layout.content_main, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        setupList()
-    }
-
-    fun setupList() {
         linearLayoutManager = LinearLayoutManager(activity)
         rv_main.layoutManager = linearLayoutManager
 
-        val goalsList = createTestData()
-
-        adapter = GoalListAdapter(goalsList)
+        adapter = GoalListAdapter()
         rv_main.adapter = adapter
-    }
-
-    fun createTestData(): ArrayList<Goal> {
-
-        val goalsList : ArrayList<Goal> = ArrayList()
-
-        var goal = Goal("0", "Workout", Status.CONFIRMED, "At the gym 4 times a week",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
-
-        goal = Goal("1", "Study Japanese", Status.CONFIRMED, "At home 2 times a week",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
-
-        goal = Goal("2", "Cook lunch for the week", Status.CONFIRMED, "On sundays",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
-
-        goal = Goal("3", "Rezar el Rosario", Status.CONFIRMED, "Con mis amigas por whatsapp",
-                "Gym", DateTime.now(), DateTime.now().plusWeeks(1), 3600,
-                Recurrence(RRule(Frequency.WEEKLY, 1, 4, DateTime.now().plusMonths(1), null),
-                        RDate(null), RDate(null)), null)
-        goalsList.add(goal)
-
-        return goalsList
     }
 }
