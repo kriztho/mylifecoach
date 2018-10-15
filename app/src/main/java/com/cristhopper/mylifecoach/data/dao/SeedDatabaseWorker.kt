@@ -20,7 +20,7 @@ class SeedDatabaseWorker(context: Context, workerParams: WorkerParameters) : Wor
         return try {
             val inputStream = applicationContext.assets.open(GOAL_DATA_FILENAME)
             jsonReader = JsonReader(inputStream.reader())
-            val goalList: List<Goal> = Gson().fromJson(jsonReader, goalType)
+            val goalList: ArrayList<Goal> = Gson().fromJson(jsonReader, goalType)
             val database = AppDatabase.getInstance(applicationContext)
             database.goalDao().insertAll(goalList)
             Worker.Result.SUCCESS

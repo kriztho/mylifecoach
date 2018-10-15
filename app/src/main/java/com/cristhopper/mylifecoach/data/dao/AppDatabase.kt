@@ -40,6 +40,8 @@ abstract class AppDatabase : RoomDatabase() {
                         }
                     })
                     .build()
+            // Build the db
+//            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).build()
         }
     }
 }

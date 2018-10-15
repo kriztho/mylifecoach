@@ -7,7 +7,7 @@ import com.cristhopper.mylifecoach.viewmodel.GoalListViewModelFactory
 
 object InjectorUtils {
 
-    private fun getGoalRepository(context: Context): GoalRepository {
+    fun getGoalRepository(context: Context): GoalRepository {
         return GoalRepository.getInstance(AppDatabase.getInstance(context).goalDao())
     }
 

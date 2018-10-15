@@ -9,11 +9,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.cristhopper.mylifecoach.R
+import com.cristhopper.mylifecoach.data.dao.AppDatabase
+import com.cristhopper.mylifecoach.data.repository.GoalRepository
 import com.cristhopper.mylifecoach.ui.fragments.CalendarFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.cristhopper.mylifecoach.utils.inTransaction
 import com.cristhopper.mylifecoach.ui.fragments.GoalListFragment
+import com.cristhopper.mylifecoach.utils.InjectorUtils
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -89,8 +92,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setupFab() {
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+
+            val goalDao = AppDatabase.getInstance(this).goalDao()
+            val goalRepository = InjectorUtils.getGoalRepository(this)
+            val list = goalRepository.createTestData().value
+            list?.let {
+
+                goalDao.insertAll(it)
+            }
         }
     }
 
