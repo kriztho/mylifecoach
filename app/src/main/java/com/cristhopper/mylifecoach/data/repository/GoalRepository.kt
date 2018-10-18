@@ -28,16 +28,16 @@ class GoalRepository private constructor(private val goalDao: GoalDao){
     fun createTestData(): LiveData<ArrayList<Goal>> {
 
         val goalsList : ArrayList<Goal> = ArrayList()
-        var goal = Goal("Workout", "At the gym 4 times a week", DateTime.now(), 900)
+        var goal = Goal("Workout", "At the gym 4 times a week", DateTime.now().millis, 900)
         goalsList.add(goal)
 
-        goal = Goal("Study Japanese","At home 2 times a week", DateTime.now(), 3600)
+        goal = Goal("Study Japanese","At home 2 times a week", DateTime.now().millis, 3600)
         goalsList.add(goal)
 
-        goal = Goal("Cook lunch for the week", "On sundays", DateTime.now(), 3600)
+        goal = Goal("Cook lunch for the week", "On sundays", DateTime.now().millis, 3600)
         goalsList.add(goal)
 
-        goal = Goal("Rezar el Rosario","Con mis amigas por whatsapp", DateTime.now(), 3600)
+        goal = Goal("Rezar el Rosario","Con mis amigas por whatsapp", DateTime.now().millis, 3600)
         goalsList.add(goal)
 
         val list = MutableLiveData<ArrayList<Goal>>()

@@ -92,14 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setupFab() {
 
         fab.setOnClickListener { view ->
-
-            val goalDao = AppDatabase.getInstance(this).goalDao()
-            val goalRepository = InjectorUtils.getGoalRepository(this)
-            val list = goalRepository.createTestData().value
-            list?.let {
-
-                goalDao.insertAll(it)
-            }
+            
         }
     }
 

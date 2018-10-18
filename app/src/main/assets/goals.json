@@ -4,9 +4,8 @@
     "name":"Workout",
     "description":"At the gym 4 times a week",
     "status":0,
-//    "start":1538625173000,
+    "start":1538625173000,
     "estimatedDuration":900,
-//    "end":1538626073000,
     "location":"Gym"
   },
   {
@@ -14,9 +13,8 @@
     "name":"Study Japanese",
     "description":"At home 2 times a week",
     "status":0,
-//    "start":1538538773000,
+    "start":1541492422000,
     "estimatedDuration":1200,
-//    "end":1538539973000,
     "location":"Home"
   },
   {
@@ -24,9 +22,8 @@
     "name":"Cook lunch for the week",
     "description":"On sundays",
     "status":0,
-//    "start":1538452373000,
+    "start":1542899182000,
     "estimatedDuration":600,
-//    "end":1538452973000,
     "location":"Home"
   },
   {
@@ -34,9 +31,8 @@
     "name":"Rezar el Rosario",
     "description":"Con mis amigas por whatsapp",
     "status":0,
-//    "start":1538365973000,
+    "start":1543697122000,
     "estimatedDuration":2400,
-//    "end":1538368373000,
     "location":"Home"
   }
 ]

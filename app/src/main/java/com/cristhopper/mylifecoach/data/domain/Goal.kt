@@ -21,15 +21,22 @@ class Goal(
         val description: String,
         val status: Status = Status.CONFIRMED,
 
-        val start: DateTime?,
+        val start: Long?,
         val estimatedDuration: Int,
-        val end: DateTime? = start?.plusSeconds(estimatedDuration),
         val location: String? = null
 
 //        @TypeConverters(Converters::class)
 //        val recurrence: Recurrence? = null,                      // It doesn't repeat
 //        val recurringEventId: Int? = null
 ): Parcelable {
+
+    fun getStartDate(): DateTime? {
+        return DateTime(start)
+    }
+
+    fun getEndDate(): DateTime? {
+        return getStartDate()?.plusSeconds(estimatedDuration)
+    }
 
     // The list of tasks associated to this goal
 //    var tasks: ArrayList<Task>? = null
@@ -38,14 +45,13 @@ class Goal(
 //    var events: ArrayList<Event>? = null
 
     @Ignore
-    constructor(name: String, description: String, start: DateTime, duration: Int) : this(
+    constructor(name: String, description: String, start: Long, duration: Int) : this(
             null,
             name,
             description,
             Status.CONFIRMED,
             start,
             duration,
-            DateTime.now().plusSeconds(duration),
             null
 //            null,
 //            null
