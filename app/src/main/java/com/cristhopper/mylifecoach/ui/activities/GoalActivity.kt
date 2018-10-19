@@ -1,5 +1,7 @@
 package com.cristhopper.mylifecoach.ui.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
@@ -18,34 +20,49 @@ import org.joda.time.format.PeriodFormat
 class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
     private val PERCENTAGE_TO_SHOW_IMAGE = 20
+    private val REQUEST_CODE_EDIT_GOAL = 201
     private var mFab: View? = null
     private var mMaxScrollSize: Int = 0
     private var mIsImageHidden: Boolean = false
+
+    var mGoal: Goal? = null
 
     companion object {
         @JvmField
         val KEY_GOAL: String = "key goal"
     }
 
-    var mGoal: Goal? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goal)
 
-        mFab = findViewById(R.id.flexible_example_fab)
-
-        val toolbar = findViewById(R.id.flexible_example_toolbar) as Toolbar
-        toolbar.setNavigationOnClickListener { onBackPressed() }
-
-        val appbar = findViewById(R.id.flexible_example_appbar) as AppBarLayout
-        appbar.addOnOffsetChangedListener(this)
+        setupFab()
+        setupToolbar()
+        setupAppbar()
 
         // Get the variable from the intent
         mGoal = intent?.getParcelableExtra(KEY_GOAL)
 
         // Populate the UI
         populate(mGoal)
+    }
+
+    fun setupFab() {
+        fab.setOnClickListener { view ->
+
+            // Edit
+            val showGoalIntent = Intent(this, EditGoalActivity::class.java)
+            showGoalIntent.putExtra(EditGoalActivity.KEY_GOAL, mGoal)
+            startActivityForResult(showGoalIntent, REQUEST_CODE_EDIT_GOAL)
+        }
+    }
+
+    fun setupToolbar() {
+        toolbar.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    fun setupAppbar() {
+        appbar.addOnOffsetChangedListener(this)
     }
 
     /**
@@ -102,6 +119,15 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
                 mIsImageHidden = false
                 ViewCompat.animate(mFab!!).scaleY(1f).scaleX(1f).start()
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Update the changes
+        if (requestCode == REQUEST_CODE_EDIT_GOAL && resultCode == Activity.RESULT_OK) {
+
         }
     }
 }

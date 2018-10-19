@@ -1,5 +1,6 @@
 package com.cristhopper.mylifecoach.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -92,7 +93,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun setupFab() {
 
         fab.setOnClickListener { view ->
-            
+            // New goal
+            val showGoalIntent = Intent(this, EditGoalActivity::class.java)
+            startActivity(showGoalIntent)
         }
     }
 

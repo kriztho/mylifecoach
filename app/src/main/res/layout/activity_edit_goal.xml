@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarWithCrossMark"
+            />
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:inputType="text"
+            style="@style/EditFieldHeader"
+            android:paddingStart="50dp"
+            android:paddingEnd="15dp"
+            android:hint="@string/editgoal_title_hint"/>
+
+        <EditText
+            android:id="@+id/edit_description"
+            android:inputType="text"
+            style="@style/EditField"
+            android:paddingStart="50dp"
+            android:paddingEnd="15dp"
+            android:hint="@string/editgoal_description_hint"/>
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/EditSection">
+
+            <ImageView
+                android:id="@+id/img_time"
+                style="@style/EditFieldImage"
+                app:srcCompat="@drawable/ic_menu_manage" />
+
+            <TextView
+                android:id="@+id/txt_startdate"
+                style="@style/EditField"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toStartOf="@id/txt_starttime"
+                app:layout_constraintStart_toEndOf="@id/img_time" />
+
+            <TextView
+                android:id="@+id/txt_starttime"
+                style="@style/EditField"
+                android:layout_width="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_startdate" />
+
+            <View style="@style/Hairline"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/EditSection">
+
+            <ImageView
+                android:id="@+id/img_frequency"
+                style="@style/EditFieldImage"
+                app:srcCompat="@drawable/ic_menu_manage" />
+
+            <TextView
+                android:id="@+id/txt_frequency"
+                style="@style/EditSectionField"
+                android:text="3 sessions per week"
+                app:layout_constraintStart_toEndOf="@+id/img_frequency" />
+
+            <TextView
+                android:id="@+id/txt_duration"
+                style="@style/EditSectionField"
+                android:text="15 minutes"
+                app:layout_constraintTop_toBottomOf="@+id/txt_frequency" />
+
+            <View style="@style/Hairline"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/EditSection">
+
+            <ImageView
+                android:id="@+id/img_location"
+                style="@style/EditFieldImage"
+                app:srcCompat="@drawable/ic_menu_manage" />
+
+            <EditText
+                android:id="@+id/edit_location"
+                style="@style/EditSectionField"
+                android:hint="@string/editgoal_location_hint"
+                app:layout_constraintStart_toEndOf="@+id/img_location" />
+
+            <View style="@style/Hairline"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+</ScrollView>

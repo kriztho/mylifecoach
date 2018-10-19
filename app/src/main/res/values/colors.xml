@@ -3,4 +3,8 @@
     <color name="colorPrimary">#42a5f5</color>
     <color name="colorPrimaryDark">#607d8b</color>
     <color name="colorAccent">#cddc39</color>
+    <color name="textColorPrimary">#000</color>
+    <color name="textColorPrimaryDark">#FFF</color>
+    <color name="colorBackground">#FFF</color>
+    <color name="colorHairline">#DEDEDE</color>
 </resources>
