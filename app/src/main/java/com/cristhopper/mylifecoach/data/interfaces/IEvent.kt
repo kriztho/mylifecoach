@@ -6,25 +6,62 @@ import com.cristhopper.mylifecoach.data.domain.gcal.Recurrence
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
-enum class Frequency {
-    NONE,
-    DAILY,
-    WEEKLY,
-    MONTHLY,
-    ANNUALLY,
-    WEEKDAYS,
-    WEEKENDS,
-    CUSTOM
+enum class Frequency(val title: String) {
+    NONE("Does not repeat"),
+    DAILY("Every day"),
+    WEEKLY("Every week"),
+    MONTHLY("Every month"),
+    ANNUALLY("Every year"),
+    WEEKDAYS("Every weekday"),
+    WEEKENDS("Every weekend");
+//    CUSTOM("Custom");
+
+    override fun toString(): String {
+        return title
+    }
 }
 
-enum class Day {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY
+enum class Duration(val title: String, val value: Int) {
+    FIFTEENMIN("15 minutes", 900),
+    THIRTYMIN("30 minutes", 1800),
+    ONEHOUR("1 Hour", 3600),
+    TWOHOURS("2 Hours", 7200),
+    CUSTOM("Custom", 0);
+
+    companion object {
+
+        fun getTitles(): Array<String> {
+            return arrayOf(
+                    FIFTEENMIN.title,
+                    THIRTYMIN.title,
+                    ONEHOUR.title,
+                    TWOHOURS.title,
+                    CUSTOM.title)
+        }
+
+        fun getValues(): Array<Int> {
+            return arrayOf(
+                    FIFTEENMIN.value,
+                    THIRTYMIN.value,
+                    ONEHOUR.value,
+                    TWOHOURS.value,
+                    CUSTOM.value)
+        }
+    }
+}
+
+enum class Day(val title: String) {
+    MONDAY("Monday"),
+    TUESDAY("Tuesday"),
+    WEDNESDAY("Wednesday"),
+    THURSDAY("Thursday"),
+    FRIDAY("Friday"),
+    SATURDAY("Saturday"),
+    SUNDAY("Sunday");
+
+    override fun toString(): String {
+        return title
+    }
 }
 
 enum class Status {

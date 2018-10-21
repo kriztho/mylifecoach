@@ -8,8 +8,12 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import com.cristhopper.mylifecoach.R
 import com.cristhopper.mylifecoach.data.domain.Goal
+import com.cristhopper.mylifecoach.data.interfaces.Duration
+import com.cristhopper.mylifecoach.data.interfaces.Frequency
+import com.cristhopper.mylifecoach.utils.enumContains
 import com.cristhopper.mylifecoach.utils.validation.EditTextPatternValidator
 import com.cristhopper.mylifecoach.utils.validation.EditTextValidator
 import kotlinx.android.synthetic.main.activity_edit_goal.*
@@ -18,12 +22,19 @@ import org.joda.time.Period
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import org.joda.time.format.PeriodFormatterBuilder
+import org.joda.time.format.PeriodFormatter
+
+
 
 class EditGoalActivity: AppCompatActivity() {
 
     var mGoal: Goal? = null
     val fmt = DateTimeFormat.forPattern(TIME_FORMAT)
     val fmd = DateTimeFormat.forPattern(DATE_FORMAT)
+
+    var frequencyAdapter: ArrayAdapter<String>? = null
 
     companion object {
         @JvmField
@@ -83,6 +94,8 @@ class EditGoalActivity: AppCompatActivity() {
 
         setupDatePicker()
         setupTimePicker()
+        setupFrequencySpinner()
+        setupDurationSpinner()
     }
 
     fun setupDatePicker() {
@@ -145,6 +158,37 @@ class EditGoalActivity: AppCompatActivity() {
         }
     }
 
+    fun setupFrequencySpinner() {
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter(this, android.R.layout.simple_spinner_item, Frequency.values()).also {
+
+            // Specify the layout to use when the list of choices appears
+            it.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+
+            // Apply the adapter to the spinner
+            spinner_frequency.adapter = it
+        }
+    }
+
+    fun setupDurationSpinner() {
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        frequencyAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item).also { adapter ->
+
+            // Add each title
+            Duration.values().forEach { duration ->
+                adapter.add(duration.title)
+            }
+
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+
+            // Apply the adapter to the spinner
+            spinner_duration.adapter = adapter
+        }
+    }
+
     /**
      * Populates the UI with the goal if available
      */
@@ -161,16 +205,40 @@ class EditGoalActivity: AppCompatActivity() {
         }
 
         // Set the start and end times
-        txt_startdate.setText(String.format(Locale.US, "%s", fmd.print(date)))
-        txt_starttime.setText(String.format(Locale.US, "%s", fmt.print(date)))
+        txt_startdate.text = String.format(Locale.US, "%s", fmd.print(date))
+        txt_starttime.text = String.format(Locale.US, "%s", fmt.print(date))
 
         // Set the frequency
-        txt_frequency.setText("Every week night")
+//        txt_frequency.setText("Every week night")
 
         // Set the duration
         goal?.also { goal1 ->
-            val duration = PeriodFormat.getDefault().print(Period(0, 0, goal1.estimatedDuration, 0).normalizedStandard())
-            txt_duration.setText(String.format(Locale.US, "%s", duration))
+
+            val values = Duration.getValues()
+
+            var selectedIndex = values.indexOf(goal1.estimatedDuration)
+            var customValue: String? = null
+            if (selectedIndex < 0) {
+                selectedIndex = values.size - 1 //Select CUSTOM
+
+                val daysHoursMinutes = PeriodFormatterBuilder()
+                        .appendHours()
+                        .appendSuffix(" hr", " hrs")
+                        .appendSeparator(" ")
+                        .appendMinutes()
+                        .appendSuffix(" min", " min")
+                        .appendSeparator(" ")
+                        .appendSeconds()
+                        .appendSuffix(" sec", " sec")
+                        .toFormatter()
+
+                customValue = daysHoursMinutes.print(Period(0, 0, goal1.estimatedDuration, 0).normalizedStandard())
+            }
+
+            spinner_duration.setSelection(selectedIndex)
+            customValue?.let {
+
+            }
         }
 
         // Location

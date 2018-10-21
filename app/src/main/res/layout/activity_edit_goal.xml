@@ -66,17 +66,19 @@
                 style="@style/EditFieldImage"
                 app:srcCompat="@drawable/ic_menu_manage" />
 
-            <TextView
-                android:id="@+id/txt_frequency"
+            <Spinner
+                android:id="@+id/spinner_frequency"
                 style="@style/EditSectionField"
                 android:text="3 sessions per week"
+                android:spinnerMode="dialog"
                 app:layout_constraintStart_toEndOf="@+id/img_frequency" />
 
-            <TextView
-                android:id="@+id/txt_duration"
+            <Spinner
+                android:id="@+id/spinner_duration"
                 style="@style/EditSectionField"
                 android:text="15 minutes"
-                app:layout_constraintTop_toBottomOf="@+id/txt_frequency" />
+                android:spinnerMode="dialog"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_frequency" />
 
             <View style="@style/Hairline"/>
 
