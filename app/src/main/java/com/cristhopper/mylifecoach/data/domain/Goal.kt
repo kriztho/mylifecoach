@@ -17,13 +17,13 @@ import org.joda.time.Duration
 class Goal(
         @PrimaryKey(autoGenerate = true)
         var id: Int? = null,                                     //Autogenerate by Room
-        val name: String,
-        val description: String,
-        val status: Status = Status.CONFIRMED,
+        var title: String,
+        var description: String,
+        var status: Status = Status.CONFIRMED,
 
-        val start: Long?,
-        val estimatedDuration: Int,
-        val location: String? = null
+        var start: Long?,
+        var estimatedDuration: Int,
+        var location: String? = null
 
 //        @TypeConverters(Converters::class)
 //        val recurrence: Recurrence? = null,                      // It doesn't repeat

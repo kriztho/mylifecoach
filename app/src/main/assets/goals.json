@@ -1,7 +1,7 @@
 [
   {
     "id":0,
-    "name":"Workout",
+    "title":"Workout",
     "description":"At the gym 4 times a week",
     "status":0,
     "start":1538625173000,
@@ -10,7 +10,7 @@
   },
   {
     "id":1,
-    "name":"Study Japanese",
+    "title":"Study Japanese",
     "description":"At home 2 times a week",
     "status":0,
     "start":1541492422000,
@@ -19,7 +19,7 @@
   },
   {
     "id":2,
-    "name":"Cook lunch for the week",
+    "title":"Cook lunch for the week",
     "description":"On sundays",
     "status":0,
     "start":1542899182000,
@@ -28,7 +28,7 @@
   },
   {
     "id":3,
-    "name":"Rezar el Rosario",
+    "title":"Rezar el Rosario",
     "description":"Con mis amigas por whatsapp",
     "status":0,
     "start":1543697122000,

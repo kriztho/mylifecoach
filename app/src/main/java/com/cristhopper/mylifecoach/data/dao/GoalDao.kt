@@ -10,12 +10,18 @@ import com.cristhopper.mylifecoach.data.domain.Goal
 @Dao
 interface GoalDao {
 
-    @Query("SELECT * FROM goals ORDER BY name")
+    @Query("SELECT * FROM goals ORDER BY title")
     fun getGoals(): LiveData<List<Goal>>
 
     @Query("SELECT * FROM goals WHERE id = :goalId")
-    fun getGoal(goalId: String): LiveData<Goal>
+    fun getGoal(goalId: Int): LiveData<Goal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(goals: ArrayList<Goal>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(goal: Goal)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(goal: Goal)
 }

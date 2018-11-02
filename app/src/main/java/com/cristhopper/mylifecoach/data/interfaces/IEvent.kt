@@ -28,6 +28,10 @@ enum class Duration(val title: String, val value: Int) {
     TWOHOURS("2 Hours", 7200),
     CUSTOM("Custom", 0);
 
+    override fun toString(): String {
+        return title
+    }
+
     companion object {
 
         fun getTitles(): Array<String> {

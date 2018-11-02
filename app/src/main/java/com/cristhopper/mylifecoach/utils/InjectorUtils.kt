@@ -3,7 +3,9 @@ package com.cristhopper.mylifecoach.utils
 import android.content.Context
 import com.cristhopper.mylifecoach.data.dao.AppDatabase
 import com.cristhopper.mylifecoach.data.repository.GoalRepository
+import com.cristhopper.mylifecoach.viewmodel.EditGoalViewModelFactory
 import com.cristhopper.mylifecoach.viewmodel.GoalListViewModelFactory
+import com.cristhopper.mylifecoach.viewmodel.GoalViewModelFactory
 
 object InjectorUtils {
 
@@ -14,5 +16,15 @@ object InjectorUtils {
     fun provideGoalListViewModelFactory(context: Context): GoalListViewModelFactory {
         val repository = getGoalRepository(context)
         return GoalListViewModelFactory(repository)
+    }
+
+    fun provideGoalViewModelFactory(context: Context): GoalViewModelFactory {
+        val repository = getGoalRepository(context)
+        return GoalViewModelFactory(repository)
+    }
+
+    fun provideEditGoalViewModelFactory(context: Context): EditGoalViewModelFactory {
+        val repository = getGoalRepository(context)
+        return EditGoalViewModelFactory(repository)
     }
 }

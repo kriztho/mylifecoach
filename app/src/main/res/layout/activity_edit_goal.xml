@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -18,7 +19,7 @@
 
         <EditText
             android:id="@+id/edit_title"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             style="@style/EditFieldHeader"
             android:paddingStart="50dp"
             android:paddingEnd="15dp"
@@ -26,7 +27,7 @@
 
         <EditText
             android:id="@+id/edit_description"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             style="@style/EditField"
             android:paddingStart="50dp"
             android:paddingEnd="15dp"
@@ -95,6 +96,7 @@
             <EditText
                 android:id="@+id/edit_location"
                 style="@style/EditSectionField"
+                android:inputType="textCapWords"
                 android:hint="@string/editgoal_location_hint"
                 app:layout_constraintStart_toEndOf="@+id/img_location" />
 

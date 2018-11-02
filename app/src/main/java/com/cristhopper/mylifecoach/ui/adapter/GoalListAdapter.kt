@@ -42,11 +42,11 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListe
     }
 
     override fun onClick(v: View?) {
-        Log.d(TAG, "[onClick]: " + goal?.name)
+        Log.d(TAG, "[onClick]: " + goal?.title)
 
         val context = itemView.context
         val showGoalIntent = Intent(context, GoalActivity::class.java)
-        showGoalIntent.putExtra(GoalActivity.KEY_GOAL, goal)
+        showGoalIntent.putExtra(GoalActivity.KEY_GOAL_ID, goal?.id)
         context.startActivity(showGoalIntent)
     }
 
@@ -56,7 +56,7 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListe
         this.goal = goal
 
         // The views
-        view.item_title.setText(goal.name)
+        view.item_title.setText(goal.title)
         view.item_description.setText(goal.description)
     }
 }

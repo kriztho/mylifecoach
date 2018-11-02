@@ -1,21 +1,24 @@
 package com.cristhopper.mylifecoach.ui.activities
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.View
 import com.cristhopper.mylifecoach.R
 import com.cristhopper.mylifecoach.data.domain.Goal
 import com.cristhopper.mylifecoach.data.domain.Task
+import com.cristhopper.mylifecoach.utils.InjectorUtils
+import com.cristhopper.mylifecoach.viewmodel.GoalViewModel
 import kotlinx.android.synthetic.main.activity_goal.*
 import org.joda.time.Period
-import java.util.*
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.PeriodFormat
+import java.util.*
 
 class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
 
@@ -25,11 +28,12 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
     private var mMaxScrollSize: Int = 0
     private var mIsImageHidden: Boolean = false
 
-    var mGoal: Goal? = null
+    private var goalId: Int = 0
+    private lateinit var viewModel: GoalViewModel
 
     companion object {
         @JvmField
-        val KEY_GOAL: String = "key goal"
+        val KEY_GOAL_ID: String = "key goal id"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,19 +44,25 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         setupToolbar()
         setupAppbar()
 
-        // Get the variable from the intent
-        mGoal = intent?.getParcelableExtra(KEY_GOAL)
+        val factory = InjectorUtils.provideGoalViewModelFactory(this)
+        viewModel = ViewModelProviders.of(this, factory).get(GoalViewModel::class.java)
 
-        // Populate the UI
-        populate(mGoal)
+        // Get the variable from the intent
+        goalId = intent.getIntExtra(KEY_GOAL_ID, 0)
+
+        viewModel.getGoal(goalId).observe(this, Observer {
+
+            // Populate the UI
+            populate(it)
+        })
     }
 
     fun setupFab() {
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener { _ ->
 
             // Edit
             val showGoalIntent = Intent(this, EditGoalActivity::class.java)
-            showGoalIntent.putExtra(EditGoalActivity.KEY_GOAL, mGoal)
+            showGoalIntent.putExtra(EditGoalActivity.KEY_GOAL_ID, goalId)
             startActivityForResult(showGoalIntent, REQUEST_CODE_EDIT_GOAL)
         }
     }
@@ -70,26 +80,26 @@ class GoalActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
      */
     fun populate(goal: Goal?) {
 
-        txt_name.setText(goal?.name)
-        txt_description.setText(goal?.description)
+        txt_name.text = goal?.title
+        txt_description.text = goal?.description
 
-//        txt_frequency.setText(goal?.recurrence?.rrule?.frequency?.name)
+//        txt_frequency.setText(goal?.recurrence?.rrule?.frequency?.title)
 
         // Set the duration
         goal?.also { goal1 ->
             val duration = PeriodFormat.getDefault().print(Period(0, 0, goal1.estimatedDuration, 0).normalizedStandard())
-            txt_duration.setText(String.format(Locale.US, "%s min", duration))
+            txt_duration.text = String.format(Locale.US, "%s min", duration)
         }
 
         // Set the start and end times
         goal?.also { goal1 ->
             val fmt = DateTimeFormat.forPattern("hh:mm aa")
-            txt_hours.setText(String.format(Locale.US, "%s - %s", fmt.print(goal1.getStartDate()), fmt.print(goal1.getStartDate()?.plusSeconds(goal1.estimatedDuration))))
+            txt_hours.text = String.format(Locale.US, "%s - %s", fmt.print(goal1.getStartDate()), fmt.print(goal1.getStartDate()?.plusSeconds(goal1.estimatedDuration)))
         }
 
         // Set until
         val fmt = DateTimeFormat.forPattern("MMMM dd, yyyy")
-        txt_end_date.setText(String.format(Locale.US, "Until %s", fmt.print(goal?.getEndDate())))
+        txt_end_date.text = String.format(Locale.US, "Until %s", fmt.print(goal?.getEndDate()))
 
         // Load tasks into UI
 //        populateTasks(goal?.tasks)

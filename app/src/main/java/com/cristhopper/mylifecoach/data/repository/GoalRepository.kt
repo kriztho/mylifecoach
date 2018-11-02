@@ -5,14 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import com.cristhopper.mylifecoach.data.dao.GoalDao
 import com.cristhopper.mylifecoach.data.domain.Goal
 import org.joda.time.DateTime
-import javax.inject.Inject
 
 class GoalRepository private constructor(private val goalDao: GoalDao){
-
-    fun getGoals() = goalDao.getGoals()
-//    fun getGoals() = createTestData()
-
-    fun getGoal(goalId: String) = goalDao.getGoal(goalId)
 
     companion object {
 
@@ -24,6 +18,16 @@ class GoalRepository private constructor(private val goalDao: GoalDao){
                     instance ?: GoalRepository(goalDao).also { instance = it }
                 }
     }
+
+    fun getGoals() = goalDao.getGoals()
+//    fun getGoals() = createTestData()
+
+    fun getGoal(goalId: Int) = goalDao.getGoal(goalId)
+
+    fun insertGoal(goal: Goal) = goalDao.insert(goal)
+
+    fun updateGoal(goal: Goal) = goalDao.update(goal)
+
 
     fun createTestData(): LiveData<ArrayList<Goal>> {
 

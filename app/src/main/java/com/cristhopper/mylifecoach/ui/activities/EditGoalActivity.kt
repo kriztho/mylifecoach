@@ -3,9 +3,12 @@ package com.cristhopper.mylifecoach.ui.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -13,32 +16,38 @@ import com.cristhopper.mylifecoach.R
 import com.cristhopper.mylifecoach.data.domain.Goal
 import com.cristhopper.mylifecoach.data.interfaces.Duration
 import com.cristhopper.mylifecoach.data.interfaces.Frequency
-import com.cristhopper.mylifecoach.utils.enumContains
+import com.cristhopper.mylifecoach.utils.InjectorUtils
 import com.cristhopper.mylifecoach.utils.validation.EditTextPatternValidator
 import com.cristhopper.mylifecoach.utils.validation.EditTextValidator
+import com.cristhopper.mylifecoach.viewmodel.EditGoalViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_edit_goal.*
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.LocalTime
 import org.joda.time.Period
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.PeriodFormat
+import org.joda.time.format.*
 import java.util.*
-import kotlin.collections.ArrayList
-import org.joda.time.format.PeriodFormatterBuilder
-import org.joda.time.format.PeriodFormatter
-
 
 
 class EditGoalActivity: AppCompatActivity() {
 
-    var mGoal: Goal? = null
+    val TAG = javaClass.simpleName
+
+    private var goalId: Int = -1
+    private var goal: Goal? = null
+    lateinit var localDate: LocalDate
+    lateinit var localTime: LocalTime
     val fmt = DateTimeFormat.forPattern(TIME_FORMAT)
     val fmd = DateTimeFormat.forPattern(DATE_FORMAT)
+    private lateinit var viewModel: EditGoalViewModel
 
-    var frequencyAdapter: ArrayAdapter<String>? = null
+    var frequencyAdapter: ArrayAdapter<Duration>? = null
 
     companion object {
         @JvmField
-        val KEY_GOAL: String = "key goal"
+        val KEY_GOAL_ID: String = "key goal id"
 
         @JvmField
         val DATE_FORMAT = "EEE, MMM dd"
@@ -51,16 +60,24 @@ class EditGoalActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_goal)
 
+        val factory = InjectorUtils.provideEditGoalViewModelFactory(this)
+        viewModel = ViewModelProviders.of(this, factory).get(EditGoalViewModel::class.java)
+
         setupToolbar()
 
         // Get the variable from the intent
-        mGoal = intent?.getParcelableExtra(KEY_GOAL)
+        goalId = intent.getIntExtra(KEY_GOAL_ID, -1)
 
         // Setup UI
         setupUI()
 
-        // Populate the UI
-        populate(mGoal)
+        viewModel.getGoal(goalId).observe(this, Observer {
+
+            goal = it
+
+            // Populate the UI
+            populate(it)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,29 +117,29 @@ class EditGoalActivity: AppCompatActivity() {
 
     fun setupDatePicker() {
 
+        // Either use today or the date set by the goal
+        localDate = DateTime.now().toLocalDate()
+        goal?.getStartDate()?.let {
+            localDate = it.toLocalDate()
+        }
+
         // Once set, this is what executes
         val datePickerListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            val newDate = DateTime(year, month, dayOfMonth, 0 , 0, 0)
-            txt_startdate.setText(fmd.print(newDate))
+            localDate = LocalDate(year, month, dayOfMonth)
+            txt_startdate.text = (fmd.print(localDate.toDateTimeAtCurrentTime()))
         }
 
         // Set the dialog
         txt_startdate.setOnClickListener { _ ->
-
-            // Either use today or the date set by the goal
-            var date = DateTime.now()
-            mGoal?.let {
-                date = it.getStartDate()
-            }
 
             // Original values
             val datePickerDialog = DatePickerDialog(
                     this,
                     R.style.DatePickerDialogTheme,
                     datePickerListener,
-                    date.year,
-                    date.monthOfYear - 1,   //It starts on 0
-                    date.dayOfMonth
+                    localDate.year,
+                    localDate.monthOfYear - 1,   //It starts on 0
+                    localDate.dayOfMonth
             )
 
             datePickerDialog.show()
@@ -131,26 +148,26 @@ class EditGoalActivity: AppCompatActivity() {
 
     fun setupTimePicker() {
 
+        // Either use today or the date set by the goal
+        localTime = DateTime.now().toLocalTime()
+        goal?.getStartDate()?.let {
+            localTime = it.toLocalTime()
+        }
+
         // Once set, this is what executes
         val timePickerListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            val newDate = DateTime(1, 1, 1, hourOfDay , minute, 0)
-            txt_starttime.setText(fmt.print(newDate))
+            localTime = LocalTime(hourOfDay , minute, 0)
+            txt_starttime.setText(fmt.print(localTime?.toDateTimeToday()))
         }
 
         txt_starttime.setOnClickListener { _ ->
-
-            // Either use today or the date set by the goal
-            var date = DateTime.now()
-            mGoal?.let {
-                date = it.getStartDate()
-            }
 
             val timePickerDialog = TimePickerDialog(
                     this,
                     R.style.DatePickerDialogTheme,
                     timePickerListener,
-                    date.hourOfDay,
-                    date.minuteOfHour,
+                    localTime.hourOfDay,
+                    localTime.minuteOfHour,
                     false
             )
 
@@ -174,12 +191,12 @@ class EditGoalActivity: AppCompatActivity() {
     fun setupDurationSpinner() {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
-        frequencyAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item).also { adapter ->
+        frequencyAdapter = ArrayAdapter<Duration>(this, android.R.layout.simple_spinner_item, Duration.values()).also { adapter ->
 
-            // Add each title
-            Duration.values().forEach { duration ->
-                adapter.add(duration.title)
-            }
+//            // Add each title
+//            Duration.values().forEach { duration ->
+//                adapter.add(duration.title)
+//            }
 
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
@@ -195,12 +212,12 @@ class EditGoalActivity: AppCompatActivity() {
     fun populate(goal: Goal?) {
 
         // Name and description
-        edit_title.setText(goal?.name)
+        edit_title.setText(goal?.title)
         edit_description.setText(goal?.description)
 
         // Either use today or the date set by the goal
         var date = DateTime.now()
-        mGoal?.let {
+        goal?.let {
             date = it.getStartDate()
         }
 
@@ -271,6 +288,48 @@ class EditGoalActivity: AppCompatActivity() {
      * Updates the goal object and sends it back
      */
     fun save() {
+
+        val datetime = localDate.toDateTime(localTime)
+        val duration = spinner_duration.selectedItem as Duration
+
+        if (goal == null) {
+
+            // Create a new goal
+            goal = Goal(
+                    edit_title.text.toString(),
+                    edit_description.text.toString(),
+                    datetime.millis,
+                    duration.value).also {
+
+                // Once create, insert it
+                viewModel.insertGoal(it)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Snackbar.make(rootView, "User has been saved", Snackbar.LENGTH_LONG).show()
+                        }, {
+                            error -> Log.e(TAG, "Unable to update username", error)
+                        })
+            }
+
+        } else {
+
+            // Update existing goal
+            goal!!.title = edit_title.text.toString()
+            goal!!.description = edit_description.text.toString()
+            goal!!.start = datetime.millis
+            goal!!.estimatedDuration = duration.value
+
+            viewModel.updateGoal(goal!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        Snackbar.make(rootView, "User has been saved", Snackbar.LENGTH_LONG).show()
+                    }, {
+                        error -> Log.e(TAG, "Unable to update username", error)
+                    })
+        }
+
         setResult(Activity.RESULT_OK)
         finish()
     }
