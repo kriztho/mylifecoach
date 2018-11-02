@@ -82,4 +82,50 @@
         <item name="android:colorAccent">@color/colorPrimary</item>
     </style>
 
+    <!-- Task Manager -->
+    <style name="tm_timer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">90sp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+
+    <style name="tm_song_control_button">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@color/textColorPrimaryDark</item>
+    </style>
+
+    <style name="tm_song_control_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="tm_timer_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
+        <item name="android:textColorHint">@color/textColorPrimaryDark</item>
+    </style>
+
+    <style name="tm_bar_action">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
 </resources>

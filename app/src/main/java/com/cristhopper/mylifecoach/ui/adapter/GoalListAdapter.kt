@@ -9,12 +9,13 @@ import android.view.View
 import com.cristhopper.mylifecoach.R
 import com.cristhopper.mylifecoach.data.domain.Goal
 import com.cristhopper.mylifecoach.ui.activities.GoalActivity
+import com.cristhopper.mylifecoach.ui.activities.TaskManagerActivity
 import com.cristhopper.mylifecoach.utils.inflate
 import kotlinx.android.synthetic.main.item_row_main.view.*
 
 class GoalListAdapter: ListAdapter<Goal, ViewHolder>(GoalDiffCallback()) {
 
-    // Binds each animal in the ArrayList to a view
+    // Binds each item in the ArrayList to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val goal = getItem(position)
@@ -56,7 +57,15 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view), View.OnClickListe
         this.goal = goal
 
         // The views
-        view.item_title.setText(goal.title)
-        view.item_description.setText(goal.description)
+        view.item_title.text = goal.title
+        view.item_description.text = goal.description
+
+        view.item_quickstart_icon.setOnClickListener {
+
+            val context = itemView.context
+            val intent = Intent(context, TaskManagerActivity::class.java)
+            intent.putExtra(TaskManagerActivity.KEY_GOAL_ID, goal.id)
+            context.startActivity(intent)
+        }
     }
 }

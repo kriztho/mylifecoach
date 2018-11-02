@@ -26,6 +26,9 @@
         <activity android:name=".ui.activities.EditGoalActivity"
             android:label="" />
 
+        <activity android:name=".ui.activities.TaskManagerActivity"
+            android:label="@string/activity_taskmanager_label" />
+
     </application>
 
 </manifest>

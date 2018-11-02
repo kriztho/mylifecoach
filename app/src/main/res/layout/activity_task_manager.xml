@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:text="Workout"
+        style="@style/tm_timer_title"
+        app:layout_constraintBottom_toTopOf="@+id/txt_timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_timer"
+        style="@style/tm_timer"
+        android:background="@color/colorPrimary"
+        android:text="@string/tm_timer_default"
+        android:textColor="@color/textColorPrimaryDark"
+        app:layout_constraintBottom_toTopOf="@+id/actionbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title" />
+
+    <LinearLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_timer">
+
+        <TextView
+            android:id="@+id/tm_cancel"
+            style="@style/tm_bar_action"
+            android:text="@string/tm_action_cancel" />
+
+        <TextView
+            android:id="@+id/tm_postpone"
+            style="@style/tm_bar_action"
+            android:text="@string/tm_action_postpone" />
+
+        <TextView
+            android:id="@+id/tm_complete"
+            style="@style/tm_bar_action"
+            android:text="@string/tm_action_complete" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionbar" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/colorBackgroundGray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorHairlineDarker"
+            />
+
+        <ImageView
+            android:id="@+id/img_song"
+            style="@style/tm_song_control_button"
+            android:contentDescription="@string/tm_img_song_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_song_name"
+            style="@style/tm_song_control_text"
+            android:layout_marginTop="8dp"
+            android:text="Bolero Falaz"
+            app:layout_constraintBottom_toTopOf="@+id/txt_song_artist"
+            app:layout_constraintEnd_toStartOf="@+id/img_prev"
+            app:layout_constraintStart_toEndOf="@+id/img_song"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_song_artist"
+            style="@style/tm_song_control_text"
+            android:layout_marginBottom="8dp"
+            android:text="Aterciopelados"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_prev"
+            app:layout_constraintStart_toEndOf="@+id/img_song"
+            app:layout_constraintTop_toBottomOf="@+id/txt_song_name" />
+
+        <ImageView
+            android:id="@+id/img_prev"
+            style="@style/tm_song_control_button"
+            android:contentDescription="@string/tm_img_prev_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_playpause"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_playpause"
+            style="@style/tm_song_control_button"
+            android:contentDescription="@string/tm_img_playpause_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_next"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_next"
+            style="@style/tm_song_control_button"
+            android:contentDescription="@string/tm_img_next_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

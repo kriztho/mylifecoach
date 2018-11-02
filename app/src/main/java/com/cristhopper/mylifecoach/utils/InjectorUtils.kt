@@ -6,6 +6,7 @@ import com.cristhopper.mylifecoach.data.repository.GoalRepository
 import com.cristhopper.mylifecoach.viewmodel.EditGoalViewModelFactory
 import com.cristhopper.mylifecoach.viewmodel.GoalListViewModelFactory
 import com.cristhopper.mylifecoach.viewmodel.GoalViewModelFactory
+import com.cristhopper.mylifecoach.viewmodel.TaskManagerViewModelFactory
 
 object InjectorUtils {
 
@@ -26,5 +27,10 @@ object InjectorUtils {
     fun provideEditGoalViewModelFactory(context: Context): EditGoalViewModelFactory {
         val repository = getGoalRepository(context)
         return EditGoalViewModelFactory(repository)
+    }
+
+    fun provideTaskManagerViewModelFactory(context: Context): TaskManagerViewModelFactory {
+        val repository = getGoalRepository(context)
+        return TaskManagerViewModelFactory(repository)
     }
 }
